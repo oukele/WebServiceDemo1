@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://cxf.apache.org/jaxws
+       http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <!--  实现类  -->
+    <bean name="webServerImpl" class="com.zh.oukele.server.impl.WebServerImpl"></bean>
+
+
+<!--    还可以使用<jaxws:server serviceClass="com.zh.oukele.server.WebServerI" address="/webServer">，相当于：-->
+<!--    JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();-->
+    <!--
+        利用 jaxws:server 发布服务
+        address： 服务地址
+        serviceClass：接口的全类名
+    -->
+    <jaxws:server id="WebdreamService" address="/webServer" serviceClass="com.zh.oukele.server.WebServerI">
+        <jaxws:serviceBean>
+            <!--      引入 服务的实现类      -->
+            <ref bean="webServerImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+
+<!--    这里的<jaxws:endpoint……>方式相当于前面使用原生JDK的方式发布SOAP服务，相当于:-->
+<!--    Endpoint.publish("http://localhost:8080/WebServer", new WebServerImpl());-->
+<!--    <jaxws:endpoint id="dreamService" address="/dreamService" implementor="com.zh.oukele.server.impl.WebServerImpl">-->
+<!--    </jaxws:endpoint>-->
+
+</beans>
